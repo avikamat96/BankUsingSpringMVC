@@ -15,7 +15,7 @@
 				<li><a href="withdrawMoney">Withdrawal</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="Logout"><strong>Logout</strong></a></li>
+				<li><a href="logout"><strong>Logout</strong></a></li>
 			</ul>
 
 		</div>

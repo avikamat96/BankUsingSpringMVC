@@ -1,17 +1,14 @@
-                 /**
- * 
- */
+/**
+* 
+*/
 package com.epam.services;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.epam.dao.AccountDao;
-import com.epam.dao.AccountDaoImpl;
-import com.epam.dao.TransactionDao;
-import com.epam.dao.TransactionDaoImpl;
 import com.epam.enums.TransactionType;
 import com.epam.exceptions.InsufficientBalanceException;
 import com.epam.exceptions.UserAccountNotFoundException;
@@ -25,9 +22,10 @@ import com.epam.models.Transactions;
  */
 @Service
 public class TransactionService {
-  AccountService accountService = new AccountService();
-  TransactionDao transactionDao = new TransactionDaoImpl();
-
+  
+  @Autowired
+  private AccountService accountService;
+  
   /**
    * Withdraw money.
    *
@@ -49,7 +47,7 @@ public class TransactionService {
       List<Transactions> transactions = new ArrayList<>();
       transactions.add(transaction);
       account.setTransactions(transactions);
-      accountService.updateAccount(account);;
+      accountService.updateAccount(account);
     } else {
       throw new InsufficientBalanceException("Insufficient balance");
     }
@@ -64,17 +62,16 @@ public class TransactionService {
    * @return the account
    * @throws UserAccountNotFoundException the user account not found exception
    */
-  public void depositMoney(long accountNumber, double amount)
-      throws UserAccountNotFoundException {
+  public void depositMoney(long accountNumber, double amount) throws UserAccountNotFoundException {
     Transactions transaction = new Transactions();
     Account account = accountService.getAccountDetails(accountNumber);
     account.setAccountBalance(account.getAccountBalance() + amount);
-    transaction.setTransactionType(TransactionType.DEPOSIT);
-    transaction.setTransactionAmount(amount);
-    List<Transactions> transactions = new ArrayList<>();
-    transactions.add(transaction);
-    account.setTransactions(transactions);
-    accountService.updateAccount(account);
+      transaction.setTransactionType(TransactionType.DEPOSIT);
+      transaction.setTransactionAmount(amount); 
+      List<Transactions> transactions =
+      new ArrayList<>(); transactions.add(transaction);
+      account.setTransactions(transactions);
+      accountService.updateAccount(account);
 
   }
 

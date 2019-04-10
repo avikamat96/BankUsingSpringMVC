@@ -7,6 +7,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.springframework.stereotype.Component;
 
 import com.epam.enums.AccountType;
 import com.epam.exceptions.UserAccountNotFoundException;
@@ -18,9 +24,10 @@ import com.epam.utils.JpaUtil;
  *
  * @author Avinash_Kamat
  */
+@Component("accountDao")
 public class AccountDaoImpl implements AccountDao {
 
-  EntityManager emManager;
+  private EntityManager emManager;
 
   public AccountDaoImpl() {
     this.emManager = JpaUtil.getEntityManagerFactory().createEntityManager();
@@ -36,7 +43,6 @@ public class AccountDaoImpl implements AccountDao {
     emManager.getTransaction().begin();
     emManager.persist(account);
     emManager.getTransaction().commit();
-    //emManager.close();
   }
   
   /* (non-Javadoc)
@@ -46,8 +52,9 @@ public class AccountDaoImpl implements AccountDao {
   public void updateAccount(Account account) {
     emManager.getTransaction().begin();
     emManager.merge(account);
+    emManager.flush();
+    boolean isManagedContext = emManager.contains(account);
     emManager.getTransaction().commit();
-    //emManager.close();
   }
 
   /*
@@ -61,7 +68,6 @@ public class AccountDaoImpl implements AccountDao {
     Account account =emManager.find(Account.class,accountNumber);
     account.setAccountType(AccountType.DISABLED);
     emManager.getTransaction().commit();
-    //emManager.close();
   }
 
   /*
@@ -71,10 +77,7 @@ public class AccountDaoImpl implements AccountDao {
    */
   @Override
   public Account getAccountDetails(long accountNumber) throws UserAccountNotFoundException {
-  //  emManager.getTransaction().begin();
     Account account = emManager.find(Account.class, accountNumber);
-    //emManager.getTransaction().commit();
-   // emManager.close();
     if(account==null) {
       throw new UserAccountNotFoundException("Account number does not exist");
     }
@@ -86,15 +89,28 @@ public class AccountDaoImpl implements AccountDao {
    * 
    * @see com.epam.dao.AccountDao#getAllAccounts()
    */
-  @SuppressWarnings("unchecked")
+
   @Override
   public List<Account> getAllAccounts() {
-   // emManager.getTransaction().begin();
-    Query query = emManager.createQuery("SELECT e FROM Account e");
-    List<Account> accounts = query.getResultList();
-  //  emManager.getTransaction().commit();
-   // emManager.close();
-    return accounts;
+    emManager.clear();
+    emManager.getTransaction().begin();
+    //Query query = emManager.createQuery("SELECT e FROM Account e");
+    //List<Account> accounts = query.getResultList();
+    
+    
+    
+    CriteriaBuilder cb = emManager.getCriteriaBuilder();
+
+    CriteriaQuery<Account> cq = cb.createQuery(Account.class);
+    Root<Account> from = cq.from(Account.class);
+
+    cq.select(from);
+    TypedQuery<Account> q = emManager.createQuery(cq);
+    List<Account> allitems = q.getResultList();
+    
+    emManager.getTransaction().commit();
+    
+    return allitems;
   }
 
 }

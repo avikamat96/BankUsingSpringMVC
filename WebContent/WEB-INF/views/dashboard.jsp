@@ -9,6 +9,11 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<%
+	  if (session.getAttribute("isUserLoggedIn") == null) {
+	    request.getRequestDispatcher("login.jsp").forward(request, response);
+	  }
+	%>
      <jsp:include page="dashboardHeader.jsp" /> 
 	<h1 align="center" style="margin: 200px">WELCOME TO EPAM BANK</h1>
 </body>

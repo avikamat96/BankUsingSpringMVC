@@ -42,9 +42,10 @@ public class Transactions {
   @UpdateTimestamp
   private LocalDateTime updateDateTime;
   
-//  @ManyToOne(cascade = CascadeType.ALL)
-//  @JoinColumn(name = "account_account_no")
-//  private Account account;
+  /*
+   * @ManyToOne(cascade = CascadeType.ALL ) // @JoinColumn(name =
+   * "account_account_no") private Account account;
+   */
 
   /**
    * @return the transactionId

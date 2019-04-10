@@ -8,11 +8,19 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
+/**
+ * The Class WebConfiguration.
+ */
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages="com.epam")
 public class WebConfiguration {
 
+	/**
+	 * View resolver.
+	 *
+	 * @return the view resolver
+	 */
 	@Bean
 	public ViewResolver viewResolver() {
 		UrlBasedViewResolver resolver = new InternalResourceViewResolver();

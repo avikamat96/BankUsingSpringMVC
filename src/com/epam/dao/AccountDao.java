@@ -5,6 +5,8 @@ package com.epam.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.epam.exceptions.UserAccountNotFoundException;
 import com.epam.models.Account;
 
@@ -13,6 +15,7 @@ import com.epam.models.Account;
  *
  * @author Avinash_Kamat
  */
+@Component
 public interface AccountDao {
 
   /**

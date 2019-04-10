@@ -33,11 +33,4 @@ public class JpaUtil {
     return emfactory;
   }
   
-  public static void shutdown() {
-    if (emfactory != null) {
-      emfactory.close();
-    }
-  }
-
-
 }

@@ -14,6 +14,11 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<%
+	  if (session.getAttribute("isUserLoggedIn") == null) {
+	    request.getRequestDispatcher("login.jsp").forward(request, response);
+	  }
+	%>
 <jsp:include page="dashboardHeader.jsp" /> 
 	<table class="table table-bordered">
 		<tr>
@@ -41,7 +46,7 @@
 			<td>${account.getAccountBalance()}</td>
 		</tr>
 	</table>
-	<form class="form-vertical" role="form" action="auth" method="post" >
+	<form class="form-vertical" role="form" action="dashboard" >
     <div class="form-group" align="center">
 			<div class="col-sm-offset-2 col-sm-10">
 				<button type="submit" class="btn btn-default">OK</button>

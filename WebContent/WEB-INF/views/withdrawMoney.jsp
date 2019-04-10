@@ -12,6 +12,11 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<%
+	  if (session.getAttribute("isUserLoggedIn") == null) {
+	    request.getRequestDispatcher("login.jsp").forward(request, response);
+	  }
+	%>
 <jsp:include page="dashboardHeader.jsp" /> 
 	<form class="form-vertical" role="form" action="withdrawMoney"
 		method="post">
