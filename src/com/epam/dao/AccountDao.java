@@ -23,7 +23,7 @@ public interface AccountDao {
    *
    * @param account the account
    */
-  void saveAccount(Account account);
+  Account saveAccount(Account account);
 
   /**
    * Delete account.
@@ -32,15 +32,16 @@ public interface AccountDao {
    * @return true, if successful
    * @throws UserAccountNotFoundException the user account not found exception
    */
-  void removeAccount(long accountNumber) throws UserAccountNotFoundException;
+  Account removeAccount(long accountNumber) throws UserAccountNotFoundException;
   
   
   /**
    * Update account.
    *
    * @param account the account
+ * @return 
    */
-  void updateAccount(Account account);
+  boolean updateAccount(Account account);
 
   /**
    * Gets the account details.

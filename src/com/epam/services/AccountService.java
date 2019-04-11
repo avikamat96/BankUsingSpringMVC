@@ -40,8 +40,7 @@ public class AccountService {
     account.setAccountType(accountType);
     account.setUser(user);
     account.setAccountBalance(0.00);
-    accountDao.saveAccount(account);
-    return account;
+    return accountDao.saveAccount(account); 
   }
 
   /**
@@ -50,8 +49,9 @@ public class AccountService {
    * @param accountNumber the account number
    * @throws UserAccountNotFoundException the user account not found exception
    */
-  public void deleteAccount(long accountNumber) throws UserAccountNotFoundException {
-    accountDao.removeAccount(accountNumber);
+  public boolean deleteAccount(long accountNumber) throws UserAccountNotFoundException {
+    Account account = accountDao.removeAccount(accountNumber);
+    return (account.getAccountType() == AccountType.DISABLED);
   }
 
   /**
@@ -60,8 +60,8 @@ public class AccountService {
    * @param account the account
    * @throws UserAccountNotFoundException the user account not found exception
    */
-  public void updateAccount(Account account) throws UserAccountNotFoundException {
-    accountDao.updateAccount(account);
+  public boolean updateAccount(Account account) throws UserAccountNotFoundException {
+    return accountDao.updateAccount(account); 
   }
 
   /**
